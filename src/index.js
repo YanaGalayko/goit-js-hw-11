@@ -8,6 +8,11 @@ const searchForm = document.querySelector('.search-form');
 const gallery = document.querySelector('.gallery');
 const loadMoreButton = document.querySelector('.btn-more');
 
+const lightboxGallery = new SimpleLightbox('.gallery a', {
+    captionsData: 'alt', 
+     captionDelay: 250
+  });
+
 let query = '';
 let page = 1;
 const perPage = 40;
@@ -33,9 +38,7 @@ function onSearch(e) {
         alertNoContentFound();
       } else {
         createMarkupImeges(data.hits);
-        const lightbox = new SimpleLightbox('.gallery a', {
-          captionDelay: 250,
-        }).refresh();
+        lightboxGallery.refresh();
         addTotalInfoCounter(data);
 
         if (data.totalHits > perPage) {
@@ -51,9 +54,7 @@ function onLoadMore() {
   fetchImages(query, page, perPage)
     .then(({ data }) => {
         createMarkupImeges(data.hits);
-      const lightbox = new SimpleLightbox('.gallery a', {
-        captionDelay: 250,
-      }).refresh();
+        lightboxGallery.refresh();
 
       const totalPages = Math.ceil(data.totalHits / perPage);
 
